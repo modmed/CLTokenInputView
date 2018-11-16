@@ -33,7 +33,7 @@ static const CGFloat kImageHeight = 10.0f;
         _token = token;
         
         _pillView = [UIView new];
-        _pillView.backgroundColor = UIColor.whiteColor;
+        _pillView.backgroundColor = [UIColor colorWithRed:0.949f green:0.949f blue:0.949f alpha:1.0f];
         _pillView.layer.borderColor = [UIColor colorWithRed:0.85f green:0.85f blue:0.85f alpha:1.0f].CGColor;
         _pillView.layer.cornerRadius = 12.0f;
 
@@ -155,8 +155,8 @@ static const CGFloat kImageHeight = 10.0f;
             self.dismissImage.image = [UIImage imageNamed:@"dismissXWhite"
                                                  inBundle:[NSBundle bundleForClass:[CLTokenPillView class]] compatibleWithTraitCollection:nil];
         } else {
-            self.pillView.backgroundColor = UIColor.whiteColor;
-            self.title.textColor = UIColor.blackColor;
+            self.pillView.backgroundColor = [UIColor colorWithRed:0.949f green:0.949f blue:0.949f alpha:1.0f];
+            self.title.textColor = [UIColor colorWithRed:0.25f green:0.25f blue:0.25f alpha:1.0f];
             self.dismissImage.image = [UIImage imageNamed:@"dismissX"
                                                  inBundle:[NSBundle bundleForClass:[CLTokenPillView class]] compatibleWithTraitCollection:nil];
         }
