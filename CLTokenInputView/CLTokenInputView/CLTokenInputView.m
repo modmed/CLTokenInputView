@@ -19,7 +19,7 @@ static CGFloat const MINIMUM_TEXTFIELD_WIDTH = 56.0;
 static CGFloat const PADDING_TOP = 10.0;
 static CGFloat const PADDING_BOTTOM = 10.0;
 static CGFloat const PADDING_LEFT = 8.0;
-static CGFloat const PADDING_RIGHT = 16.0;
+static CGFloat const PADDING_RIGHT = 8.0;
 static CGFloat STANDARD_ROW_HEIGHT = 25.0;
 
 static CGFloat const FIELD_MARGIN_X = 4.0; // Note: Same as CLTokenView.PADDING_X
@@ -144,15 +144,17 @@ static CGFloat const FIELD_MARGIN_X = 4.0; // Note: Same as CLTokenView.PADDING_
     [self.tokenViews addObject:tokenView];
     [self addSubview:tokenView];
     self.textField.text = @"";
-    if ([self.delegate respondsToSelector:@selector(tokenInputView:didAddToken:)]) {
-        [self.delegate tokenInputView:self didAddToken:token];
-    }
 
     // Clearing text programmatically doesn't call this automatically
     [self onTextFieldDidChange:self.textField];
 
     [self updatePlaceholderTextVisibility];
     [self repositionViews];
+    
+    if ([self.delegate respondsToSelector:@selector(tokenInputView:didAddToken:)]) {
+        [self.delegate tokenInputView:self didAddToken:token];
+    }
+
 }
 
 - (void)removeToken:(CLToken *)token
@@ -213,7 +215,6 @@ static CGFloat const FIELD_MARGIN_X = 4.0; // Note: Same as CLTokenView.PADDING_
 
     CGFloat curX = self.paddingInsets.left;
     CGFloat curY = self.paddingInsets.top;
-    CGFloat totalHeight = STANDARD_ROW_HEIGHT;
     BOOL isOnFirstLine = YES;
 
     // Position field view (if set)
@@ -250,19 +251,24 @@ static CGFloat const FIELD_MARGIN_X = 4.0; // Note: Same as CLTokenView.PADDING_
 
     // Position token views
     CGRect tokenRect = CGRectNull;
+
+    CGFloat currentRowHeight = STANDARD_ROW_HEIGHT;
     for (CLTokenView *tokenView in self.tokenViews) {
-        tokenRect = tokenView.frame;
+        tokenView.maxWidth = CGFLOAT_MAX;
+        CGSize tokenSize = tokenView.intrinsicContentSize;
+        tokenRect = CGRectMake(CGRectGetMinX(tokenView.frame), CGRectGetMinY(tokenView.frame), tokenSize.width, tokenSize.height);
 
         CGFloat tokenBoundary = isOnFirstLine ? firstLineRightBoundary : rightBoundary;
         // if token is too wide for the current line, move to the next line
         if (curX + CGRectGetWidth(tokenRect) > tokenBoundary) {
             // Need a new line
             curX = self.paddingInsets.left;
-            curY += STANDARD_ROW_HEIGHT+VSPACE;
-            totalHeight += STANDARD_ROW_HEIGHT;
+            curY += currentRowHeight+VSPACE;
+            currentRowHeight = STANDARD_ROW_HEIGHT;
             isOnFirstLine = NO;
         }
         // if token is still to wide for the current line, resize the width of the token so it fits
+        tokenBoundary = isOnFirstLine ? firstLineRightBoundary : rightBoundary;
         if (curX + CGRectGetWidth(tokenRect) > tokenBoundary) {
             tokenView.maxWidth = tokenBoundary - curX;
             CGSize tokenViewIntrinsicSize = tokenView.intrinsicContentSize;
@@ -270,11 +276,12 @@ static CGFloat const FIELD_MARGIN_X = 4.0; // Note: Same as CLTokenView.PADDING_
             [tokenView setNeedsLayout];
             [tokenView layoutIfNeeded];
             tokenRect = tokenView.frame;
+            currentRowHeight = tokenViewIntrinsicSize.height;
         }
         
         tokenRect.origin.x = curX;
         // Center our tokenView vertically within STANDARD_ROW_HEIGHT
-        tokenRect.origin.y = curY + ((STANDARD_ROW_HEIGHT-CGRectGetHeight(tokenRect))/2.0);
+        tokenRect.origin.y = curY + ((currentRowHeight-CGRectGetHeight(tokenRect))/2.0);
         tokenView.frame = tokenRect;
 
         curX = CGRectGetMaxX(tokenRect) + HSPACE;
@@ -291,8 +298,8 @@ static CGFloat const FIELD_MARGIN_X = 4.0; // Note: Same as CLTokenView.PADDING_
         // So leaving it set here, and marking the warning to ignore it
 #pragma unused(isOnFirstLine)
         curX = self.paddingInsets.left + TEXT_FIELD_HSPACE;
-        curY += STANDARD_ROW_HEIGHT+VSPACE;
-        totalHeight += STANDARD_ROW_HEIGHT;
+        curY += currentRowHeight + VSPACE;
+        currentRowHeight = STANDARD_ROW_HEIGHT;
         // Adjust the width
         availableWidthForTextField = rightBoundary - curX;
     }
@@ -303,9 +310,11 @@ static CGFloat const FIELD_MARGIN_X = 4.0; // Note: Same as CLTokenView.PADDING_
     textFieldRect.size.width = availableWidthForTextField;
     textFieldRect.size.height = STANDARD_ROW_HEIGHT;
     self.textField.frame = textFieldRect;
+    
+    CGFloat totalHeight = curY + currentRowHeight;
 
     CGFloat oldContentHeight = self.intrinsicContentHeight;
-    self.intrinsicContentHeight = MAX(totalHeight, CGRectGetMaxY(textFieldRect)+self.paddingInsets.bottom);
+    self.intrinsicContentHeight = MAX(totalHeight + self.paddingInsets.bottom, CGRectGetMaxY(textFieldRect) + self.paddingInsets.bottom);
     [self invalidateIntrinsicContentSize];
 
     if (oldContentHeight != self.intrinsicContentHeight) {
