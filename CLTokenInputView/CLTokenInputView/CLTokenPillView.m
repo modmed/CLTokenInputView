@@ -44,6 +44,7 @@ static const CGFloat kImageHeight = 10.0f;
         _title.font = font;
         _title.text = token.displayText;
         _title.textColor = [UIColor colorWithRed:0.25f green:0.25f blue:0.25f alpha:1.0f];
+        _title.numberOfLines = 0;
         [_pillView addSubview:_title];
         
         _dismissImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dismissX" inBundle:[NSBundle bundleForClass:[CLTokenPillView class]] compatibleWithTraitCollection:nil]];
@@ -67,9 +68,11 @@ static const CGFloat kImageHeight = 10.0f;
 #pragma mark - Layout Related
 
 - (CGSize)intrinsicContentSize {
+    CGFloat nonTitleLabelWidth = kTitleHSpacing*2.0f + kImageWidth + kImageSpacing + kPillSpacing;
+    self.title.preferredMaxLayoutWidth = self.maxWidth - nonTitleLabelWidth;
     CGSize titleIntrinsicSize = self.title.intrinsicContentSize;
     
-    CGFloat width = titleIntrinsicSize.width + kTitleHSpacing*2.0f + kImageWidth + kImageSpacing + kPillSpacing;
+    CGFloat width = titleIntrinsicSize.width + nonTitleLabelWidth;
     
     return CGSizeMake(MIN(width, self.maxWidth), titleIntrinsicSize.height + kTitleVSpacing*2.0);
 }
