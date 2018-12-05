@@ -60,4 +60,22 @@
     [super setDelegate:delegate];
 }
 
+- (NSArray *)keyCommands {
+    static NSArray *commands;
+    
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        UIKeyCommand *const forward = [UIKeyCommand keyCommandWithInput:@"\t" modifierFlags:0 action:@selector(ignore)];
+        UIKeyCommand *const backward = [UIKeyCommand keyCommandWithInput:@"\t" modifierFlags:UIKeyModifierShift action:@selector(ignore)];
+        
+        commands = @[forward, backward];
+    });
+    
+    return self.disallowTabbingBetweenFields ? commands : nil;
+}
+
+- (void)ignore {
+    // intentionally do nothing
+}
+
 @end

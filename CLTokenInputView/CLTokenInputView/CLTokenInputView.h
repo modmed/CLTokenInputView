@@ -111,6 +111,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) IBInspectable CLTokenStyle tokenStyle;
 
+@property (assign, nonatomic) BOOL disallowTabbingBetweenFields;
+
 - (void)addToken:(CLToken *)token;
 - (void)removeToken:(CLToken *)token;
 - (nullable CLToken *)tokenizeTextfieldText;
