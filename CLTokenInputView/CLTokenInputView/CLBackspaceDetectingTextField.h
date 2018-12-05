@@ -31,6 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic, nullable) NSObject <CLBackspaceDetectingTextFieldDelegate> *delegate;
 
+@property (assign, nonatomic) BOOL disallowTabbingBetweenFields;
+
 @end
 
 NS_ASSUME_NONNULL_END

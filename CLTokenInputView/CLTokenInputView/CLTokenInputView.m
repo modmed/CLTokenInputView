@@ -440,6 +440,10 @@ static CGFloat const FIELD_MARGIN_X = 4.0; // Note: Same as CLTokenView.PADDING_
     self.textField.keyboardAppearance = _keyboardAppearance;
 }
 
+- (void)setDisallowTabbingBetweenFields:(BOOL)disallowTabbingBetweenFields {
+    _disallowTabbingBetweenFields = disallowTabbingBetweenFields;
+    self.textField.disallowTabbingBetweenFields = disallowTabbingBetweenFields;
+}
 
 #pragma mark - Measurements (text field offset, etc.)
 
