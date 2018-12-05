@@ -14,6 +14,7 @@
 
 static CGFloat const HSPACE = 0.0;
 static CGFloat const TEXT_FIELD_HSPACE = 4.0; // Note: Same as CLTokenView.PADDING_X
+static CGFloat const TEXT_FIELD_HEIGHT_ADJUST = 4.0;
 static CGFloat const VSPACE = 4.0;
 static CGFloat const MINIMUM_TEXTFIELD_WIDTH = 56.0;
 static CGFloat const PADDING_TOP = 10.0;
@@ -48,6 +49,7 @@ static CGFloat const FIELD_MARGIN_X = 4.0; // Note: Same as CLTokenView.PADDING_
     self.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.textField.delegate = self;
     self.additionalTextFieldYOffset = 0.0;
+    self.textField.contentVerticalAlignment = UIControlContentVerticalAlignmentBottom;
     if (![self.textField respondsToSelector:@selector(defaultTextAttributes)]) {
         self.additionalTextFieldYOffset = 1.5;
     }
@@ -308,7 +310,7 @@ static CGFloat const FIELD_MARGIN_X = 4.0; // Note: Same as CLTokenView.PADDING_
     textFieldRect.origin.x = curX;
     textFieldRect.origin.y = curY + self.additionalTextFieldYOffset;
     textFieldRect.size.width = availableWidthForTextField;
-    textFieldRect.size.height = STANDARD_ROW_HEIGHT;
+    textFieldRect.size.height = currentRowHeight - TEXT_FIELD_HEIGHT_ADJUST;
     self.textField.frame = textFieldRect;
     
     CGFloat totalHeight = curY + currentRowHeight;
