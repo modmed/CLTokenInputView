@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL hideUnselectedComma;
 @property (assign, nonatomic) CGFloat maxWidth;
 
-- (id)initWithToken:(CLToken *)token font:(nullable UIFont *)font;
+- (id)initWithToken:(CLToken *)token font:(nullable UIFont *)font adjustsFontForContentSizeCategory:(BOOL)adjustsFontForContentSizeCategory;
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated;
 - (void)setSelectedIVar:(BOOL)selected;

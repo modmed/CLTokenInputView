@@ -31,7 +31,7 @@ static NSString *const UNSELECTED_LABEL_NO_COMMA_FORMAT = @"%@";
 
 @implementation CLTokenView
 
-- (id)initWithToken:(CLToken *)token font:(nullable UIFont *)font
+- (id)initWithToken:(CLToken *)token font:(nullable UIFont *)font adjustsFontForContentSizeCategory:(BOOL)adjustsFontForContentSizeCategory
 {
     self = [super initWithFrame:CGRectZero];
     if (self) {
@@ -43,6 +43,7 @@ static NSString *const UNSELECTED_LABEL_NO_COMMA_FORMAT = @"%@";
         if (font) {
             self.label.font = font;
         }
+        self.label.adjustsFontForContentSizeCategory = adjustsFontForContentSizeCategory;
         self.label.textColor = tintColor;
         self.label.backgroundColor = [UIColor clearColor];
         [self addSubview:self.label];
@@ -55,6 +56,7 @@ static NSString *const UNSELECTED_LABEL_NO_COMMA_FORMAT = @"%@";
 
         self.selectedLabel = [[UILabel alloc] initWithFrame:CGRectMake(PADDING_X, PADDING_Y, 0, 0)];
         self.selectedLabel.font = self.label.font;
+        self.selectedLabel.adjustsFontForContentSizeCategory = adjustsFontForContentSizeCategory;
         self.selectedLabel.textColor = [UIColor whiteColor];
         self.selectedLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:self.selectedLabel];

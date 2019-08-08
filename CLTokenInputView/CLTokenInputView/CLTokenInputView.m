@@ -104,7 +104,9 @@ static CGFloat const FIELD_MARGIN_X = 4.0; // Note: Same as CLTokenView.PADDING_
     if (tokenStyle == CLTokenStyleText) {
         STANDARD_ROW_HEIGHT = 25.0f;
     } else {
-        CLTokenPillView *sizingCell = [[CLTokenPillView alloc] initWithToken:[[CLToken alloc] initWithDisplayText:@"test" context:nil] font:self.textField.font];
+        CLTokenPillView *sizingCell = [[CLTokenPillView alloc] initWithToken:[[CLToken alloc] initWithDisplayText:@"test" context:nil]
+                                                                        font:self.textField.font
+                                           adjustsFontForContentSizeCategory:self.textField.adjustsFontForContentSizeCategory];
         STANDARD_ROW_HEIGHT = sizingCell.intrinsicContentSize.height;
     }
     [self repositionViews];
@@ -133,9 +135,13 @@ static CGFloat const FIELD_MARGIN_X = 4.0; // Note: Same as CLTokenView.PADDING_
     [self.tokens addObject:token];
     CLTokenView *tokenView;
     if (self.tokenStyle == CLTokenStyleText) {
-        tokenView = [[CLTokenView alloc] initWithToken:token font:self.textField.font];
+        tokenView = [[CLTokenView alloc] initWithToken:token
+                                                  font:self.textField.font
+                     adjustsFontForContentSizeCategory:self.textField.adjustsFontForContentSizeCategory];
     } else {
-        tokenView = [[CLTokenPillView alloc] initWithToken:token font:self.textField.font];
+        tokenView = [[CLTokenPillView alloc] initWithToken:token
+                                                      font:self.textField.font
+                         adjustsFontForContentSizeCategory:self.textField.adjustsFontForContentSizeCategory];
     }
     if ([self respondsToSelector:@selector(tintColor)]) {
         tokenView.tintColor = self.tintColor;
