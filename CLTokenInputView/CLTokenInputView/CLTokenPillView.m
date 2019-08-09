@@ -27,7 +27,7 @@ static const CGFloat kImageHeight = 10.0f;
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithToken:(CLToken *)token font:(nullable UIFont *)font {
+- (id)initWithToken:(CLToken *)token font:(nullable UIFont *)font adjustsFontForContentSizeCategory:(BOOL)adjustsFontForContentSizeCategory {
     self = [super init];
     if (self != nil) {
         _token = token;
@@ -42,6 +42,7 @@ static const CGFloat kImageHeight = 10.0f;
         
         _title = [[UILabel alloc] initWithFrame:CGRectMake(kTitleHSpacing, kTitleVSpacing, 0.0f, 0.0f)];
         _title.font = font;
+        _title.adjustsFontForContentSizeCategory = adjustsFontForContentSizeCategory;
         _title.text = token.displayText;
         _title.textColor = [UIColor colorWithRed:0.25f green:0.25f blue:0.25f alpha:1.0f];
         _title.numberOfLines = 0;
