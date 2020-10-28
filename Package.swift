@@ -26,8 +26,7 @@ let package = Package(
             name: "CLTokenInputView",
             dependencies: [],
             path: "CLTokenInputView/CLTokenInputView",
-            exclude: [ ],
-            ],
-            publicHeadersPath: ""),
+            exclude: [],
+            publicHeadersPath: "CLTokenInput"),
     ]
 )
