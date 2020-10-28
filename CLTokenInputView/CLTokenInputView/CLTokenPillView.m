@@ -48,7 +48,7 @@ static const CGFloat kImageHeight = 10.0f;
         _title.numberOfLines = 0;
         [_pillView addSubview:_title];
         
-        _dismissImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dismissX" inBundle:[NSBundle bundleForClass:[CLTokenPillView class]] compatibleWithTraitCollection:nil]];
+        _dismissImage = [[UIImageView alloc] initWithImage:[self imageNamed:@"dismissX"]];
         _dismissImage.frame = CGRectMake(0.0f, 0.0f, kImageWidth, kImageHeight);
         [_pillView addSubview:_dismissImage];
         
@@ -156,15 +156,26 @@ static const CGFloat kImageHeight = 10.0f;
         if (self.selected) {
             self.pillView.backgroundColor = [UIColor colorWithRed:0.0f green:0.51f blue:0.894f alpha:1.0f];
             self.title.textColor = UIColor.whiteColor;
-            self.dismissImage.image = [UIImage imageNamed:@"dismissXWhite"
-                                                 inBundle:[NSBundle bundleForClass:[CLTokenPillView class]] compatibleWithTraitCollection:nil];
+            self.dismissImage.image = [self imageNamed:@"dismissXWhite"];
         } else {
             self.pillView.backgroundColor = [UIColor colorWithRed:0.949f green:0.949f blue:0.949f alpha:1.0f];
             self.title.textColor = [UIColor colorWithRed:0.25f green:0.25f blue:0.25f alpha:1.0f];
-            self.dismissImage.image = [UIImage imageNamed:@"dismissX"
-                                                 inBundle:[NSBundle bundleForClass:[CLTokenPillView class]] compatibleWithTraitCollection:nil];
+            self.dismissImage.image = [self imageNamed:@"dismissX"];
         }
     }];
+}
+
+- (UIImage *)imageNamed:(NSString *)imageName {
+#if SWIFT_PACKAGE
+    UIImage *image = [UIImage imageNamed:imageName
+                                inBundle:[SWIFTPM_MODULE_BUNDLE bundleForClass:[CLTokenPillView class]]
+           compatibleWithTraitCollection:nil];
+#else
+    UIImage *image = [UIImage imageNamed:imageName
+                                inBundle:[NSBundle bundleForClass:[CLTokenPillView class]]
+           compatibleWithTraitCollection:nil];
+#endif
+    return image;
 }
 
 @end
