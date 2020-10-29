@@ -29,9 +29,6 @@ let package = Package(
             exclude: [ "CLTokenInputView-Info.plist",
                        "CLTokenInputView-Prefix.pch",
                        "Info.plist" ],
-            resources: [
-                .process("Media.xcassets"),
-            ],
             publicHeadersPath: "CLTokenInput"),
     ]
 )
