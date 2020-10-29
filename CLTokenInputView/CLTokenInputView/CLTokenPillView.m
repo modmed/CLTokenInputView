@@ -167,14 +167,14 @@ static const CGFloat kImageHeight = 10.0f;
 
 - (UIImage *)imageNamed:(NSString *)imageName {
 #if SWIFT_PACKAGE
-    UIImage *image = [UIImage imageNamed:imageName
-                                inBundle:[SWIFTPM_MODULE_BUNDLE bundleForClass:[CLTokenPillView class]]
-           compatibleWithTraitCollection:nil];
+    NSBundle *bundle = SWIFTPM_MODULE_BUNDLE;
 #else
-    UIImage *image = [UIImage imageNamed:imageName
-                                inBundle:[NSBundle bundleForClass:[CLTokenPillView class]]
-           compatibleWithTraitCollection:nil];
+    NSBundle *bundle = [NSBundle bundleForClass:[CLTokenPillView class]];
 #endif
+
+    UIImage *image = [UIImage imageNamed:imageName
+                                inBundle:bundle
+           compatibleWithTraitCollection:nil];
     return image;
 }
 
